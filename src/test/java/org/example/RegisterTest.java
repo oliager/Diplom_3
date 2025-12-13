@@ -37,7 +37,7 @@ public class RegisterTest {
 
         LoginPage loginPage = new LoginPage(driver);
 
-        loginPage.waitForLoadForm();
+        loginPage.waitForLoginButton();
 
         Assert.assertEquals(Utils.URL_BURGERS_LOGIN, driver.getCurrentUrl());
     }
@@ -62,6 +62,6 @@ public class RegisterTest {
     @After
     public void teardown() {
         // Закрываем браузер
-        //driver.quit();
+        driver.quit();
     }
 }
