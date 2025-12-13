@@ -6,12 +6,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import static org.example.utils.Utils.BUTTON_PROFILE;
+
 public class ProfilePage {
 
     private final WebDriver driver;
     private final WebDriverWait waitDriver;
 
-    private final By buttonProfile = By.xpath(".//p[text()='Личный Кабинет']/parent::a");
     private final By fieldLogin = By.xpath(".//label[text()='Логин']/parent::div/input");
 
 
@@ -22,7 +23,7 @@ public class ProfilePage {
     }
 
     public void clickButtonProfile() {
-        driver.findElement(buttonProfile).click();
+        driver.findElement(BUTTON_PROFILE).click();
     }
 
     //метод для ожидания появления элемента

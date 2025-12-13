@@ -2,7 +2,6 @@ package org.example;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.logging.Log;
 import org.example.page.objects.LoginPage;
 import org.example.page.objects.RegisterPage;
 import org.example.utils.Utils;

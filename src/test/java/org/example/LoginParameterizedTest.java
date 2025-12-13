@@ -2,7 +2,6 @@ package org.example;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.example.page.objects.HomePage;
 import org.example.page.objects.LoginPage;
 import org.example.page.objects.ProfilePage;
 import org.example.page.objects.RegisterPage;
@@ -11,16 +10,27 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class LoginTest {
+@RunWith(Parameterized.class)
+public class LoginParameterizedTest {
 
     private WebDriver driver;
 
     private String email;
     private String password;
 
+    private final String url;
+    private final By locatorOfButton;
+
+    public LoginParameterizedTest(String url, By locatorOfButton) {
+        this.url = url;
+        this.locatorOfButton = locatorOfButton;
+    }
     @Before
     public void startUp() {
         WebDriverManager.chromedriver().setup();
@@ -42,12 +52,21 @@ public class LoginTest {
 
     }
 
+    @Parameterized.Parameters
+    public static Object[][] getLoginData() {
+        return new Object[][] {
+                {Utils.URL_BURGERS, Utils.BUTTON_LOGIN},
+                {Utils.URL_BURGERS, Utils.BUTTON_PROFILE},
+                {Utils.URL_BURGERS_REGISTER, Utils.BUTTON_REGISTER},
+                {Utils.URL_BURGERS_FORGOT_PASSWORD, Utils.BUTTON_FORGOT_PASSWORD},
+        };
+    }
+
     @Test
     public void loginOnClickButtonLoginAccountTest() {
-        driver.get(Utils.URL_BURGERS);
+        driver.get(url);
 
-        HomePage homePage = new HomePage(driver);
-        homePage.clickButtonLoginAccount();
+        driver.findElement(locatorOfButton).click();
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage.waitForAuthorizationForm();
@@ -69,6 +88,6 @@ public class LoginTest {
     @After
     public void teardown() {
         // Закрываем браузер
-        //driver.quit();
+        driver.quit();
     }
 }
