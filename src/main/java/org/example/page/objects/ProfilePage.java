@@ -1,5 +1,6 @@
 package org.example.page.objects;
 
+import io.qameta.allure.Step;
 import org.example.utils.Utils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -22,14 +23,16 @@ public class ProfilePage {
         waitDriver = new WebDriverWait(driver, Utils.EXPLICIT_WAIT_3SEC);
     }
 
+    @Step("Клик по кнопке Личный кабинет")
     public void clickButtonProfile() {
         driver.findElement(BUTTON_PROFILE).click();
     }
 
-    //метод для ожидания появления элемента
+
     public void waitForElementVisible(By locator) {
         waitDriver.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
+    @Step("Получение значения поля Логин")
     public String getTextOfLogin(){
         waitForElementVisible(fieldLogin);
         return driver.findElement(fieldLogin).getAttribute("value");

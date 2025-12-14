@@ -1,6 +1,7 @@
 package org.example;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.example.helpers.DriverHelper;
 import org.example.page.objects.HomePage;
 import org.example.utils.Utils;
 import org.junit.After;
@@ -11,7 +12,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+
+import java.io.IOException;
 
 import static org.example.utils.Utils.*;
 
@@ -28,10 +30,10 @@ public class ConstructorSectionParameterizedTest {
 
 
     @Before
-    public void startUp() {
+    public void startUp() throws IOException {
         WebDriverManager.chromedriver().setup();
-        // драйвер для браузера Chrome
-        driver = new ChromeDriver();
+
+        driver = DriverHelper.initDriver();
         driver.get(Utils.URL_BURGERS);
 
     }
@@ -47,7 +49,7 @@ public class ConstructorSectionParameterizedTest {
     }
 
     @Test
-    public void changeSectionBurgerCostructorTest() {
+    public void changeSectionBurgerConstructorTest() {
         driver.findElement(locatorOfInitialSection).click();
 
         driver.findElement(locatorOfFinalSection).click();
@@ -61,7 +63,7 @@ public class ConstructorSectionParameterizedTest {
 
     @After
     public void teardown() {
-        // Закрываем браузер
+
         driver.quit();
     }
 }

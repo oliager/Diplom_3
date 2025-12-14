@@ -1,5 +1,6 @@
 package org.example.page.objects;
 
+import io.qameta.allure.Step;
 import org.example.utils.Utils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -23,27 +24,31 @@ public class LoginPage {
         waitDriver = new WebDriverWait(driver, Utils.EXPLICIT_WAIT_3SEC);
     }
 
+    @Step("Ожидание видимости кнопки для входа")
     public void waitForLoginButton(){
         waitForElementVisible(loginButton);
     }
 
+    @Step("Ожидание видимости формы авторизации")
     public void waitForAuthorizationForm(){
         waitForElementVisible(authorizationForm);
     }
 
-    //метод для ожидания появления элемента
     public void waitForElementVisible(By locator) {
         waitDriver.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
+    @Step("Заполнение поля Email")
     public void setEmail(String email) {
         driver.findElement(emailField).sendKeys(email);
     }
 
+    @Step("Заполнение поля Пароль")
     public void setPassword(String password) {
         driver.findElement(passwordField).sendKeys(password);
     }
 
+    @Step("Клик по кнопке входа")
     public void clickLoginButton() {
         driver.findElement(loginButton).click();
     }

@@ -1,5 +1,6 @@
 package org.example.page.objects;
 
+import io.qameta.allure.Step;
 import org.example.utils.Utils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -12,7 +13,6 @@ public class RegisterPage {
     private final WebDriverWait waitDriver;
 
 
-    //локатор для поля 'Имя'
     private final By nameField = By.xpath(".//label[text()='Имя']/parent::div/input");
     private final By emailField = By.xpath(".//label[text()='Email']/parent::div/input");
     private final By passwordField = By.xpath(".//input[@name='Пароль']");
@@ -25,31 +25,37 @@ public class RegisterPage {
         waitDriver = new WebDriverWait(driver, Utils.EXPLICIT_WAIT_3SEC);
     }
 
+    @Step("Заполнение поля Имя")
     public void setName(String name) {
         driver.findElement(nameField).sendKeys(name);
     }
 
+    @Step("Заполнение поля Email")
     public void setEmail(String email) {
         driver.findElement(emailField).sendKeys(email);
     }
 
+    @Step("Заполнение поля Пароль")
     public void setPassword(String password) {
         driver.findElement(passwordField).sendKeys(password);
     }
 
+    @Step("Клик по кнопке регистрации")
     public void clickRegisterButton() {
         driver.findElement(registerButton).click();
     }
 
+    @Step("Ожидание видимости ошибки")
     public void waitForError(){
         waitForElementVisible(errorMessage);
     }
 
-    //метод для ожидания появления элемента
+
     public void waitForElementVisible(By locator) {
         waitDriver.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
+    @Step("Получение текста ошибки")
     public String getTextOfError(){
         waitForElementVisible(errorMessage);
         return driver.findElement(errorMessage).getText();
