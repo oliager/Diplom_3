@@ -23,4 +23,12 @@ public class Utils {
     //локатор кнопки Войти на странице Забыли пароль
     public static final By BUTTON_FORGOT_PASSWORD= By.xpath(".//a[text()='Войти']");
 
+    public static final By SECTION_BUNS = By.xpath(".//span[text()='Булки']/parent::div");
+    public static final By SECTION_SOUSES = By.xpath(".//span[text()='Соусы']/parent::div");
+    public static final By SECTION_FILLINGS = By.xpath(".//span[text()='Начинки']/parent::div");
+
+
+
+
+
 }
