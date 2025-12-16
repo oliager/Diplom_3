@@ -1,6 +1,7 @@
 package org.example;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
@@ -11,7 +12,6 @@ import org.example.model.User;
 import org.example.page.objects.LoginPage;
 import org.example.page.objects.ProfilePage;
 import org.example.steps.UsersSteps;
-import org.example.utils.Utils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -22,6 +22,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import java.io.IOException;
+import org.apache.http.HttpStatus;
+
+import static org.example.page.objects.HomePage.*;
+import static org.example.page.objects.LoginPage.*;
+import static org.example.page.objects.ProfilePage.*;
+import static org.example.page.objects.RegisterPage.*;
+import static org.example.utils.Utils.*;
 
 
 @RunWith(Parameterized.class)
@@ -45,7 +52,7 @@ public class LoginParameterizedTest {
     @Before
     public void startUp() throws IOException {
         RestAssured.requestSpecification = new RequestSpecBuilder()
-                .setBaseUri(Utils.URL_BURGERS)
+                .setBaseUri(URL_BURGERS)
                 .setContentType(ContentType.JSON)
                 .build();
 
@@ -60,28 +67,30 @@ public class LoginParameterizedTest {
         User user = new User(email, password, name);
 
         usersSteps.create(user)
-                .statusCode(200);
+                .statusCode(HttpStatus.SC_OK);
     }
 
-    @Parameterized.Parameters
+    @Parameterized.Parameters(name = "Url= {0}, Button= {1}")
     public static Object[][] getLoginData() {
         return new Object[][] {
-                {Utils.URL_BURGERS, Utils.BUTTON_LOGIN},
-                {Utils.URL_BURGERS, Utils.BUTTON_PROFILE},
-                {Utils.URL_BURGERS_REGISTER, Utils.BUTTON_REGISTER},
-                {Utils.URL_BURGERS_FORGOT_PASSWORD, Utils.BUTTON_FORGOT_PASSWORD},
+                {URL_BURGERS, BUTTON_LOGIN},
+                {URL_BURGERS, BUTTON_PROFILE},
+                {URL_BURGERS_REGISTER, BUTTON_REGISTER},
+                {URL_BURGERS_FORGOT_PASSWORD, BUTTON_FORGOT_PASSWORD},
         };
     }
 
     @Test
     @DisplayName("После клика на кнопку(locatorOfButton) и ввода данных, " +
             "в Профиле заполнен Логин")
+    @Description("Проверка, что при клике на кнопку авторизации, заполнении формы авторизации, клике на кнопку войти " +
+            "на странице Личный кабинет в поле Логина проставлено значение email")
     public void loginOnClickButtonTest() {
         driver.get(url);
-
-        driver.findElement(locatorOfButton).click();
-
         LoginPage loginPage = new LoginPage(driver);
+
+        loginPage.clickButtonToLogin(locatorOfButton);
+
         loginPage.waitForAuthorizationForm();
         loginPage.setEmail(email);
         loginPage.setPassword(password);
@@ -93,7 +102,6 @@ public class LoginParameterizedTest {
         String actualLogin = profilePage.getTextOfLogin();
 
         Assert.assertEquals(email.toLowerCase(), actualLogin);
-
     }
 
     @After

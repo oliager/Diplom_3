@@ -20,6 +20,9 @@ public class RegisterPage {
     private final By registerButton = By.xpath(".//button[text()='Зарегистрироваться']");
     private final By errorMessage =  By.className("input__error");
 
+    //локатор кнопки Войти на странице регистрации
+    public static final By BUTTON_REGISTER= By.xpath(".//a[text()='Войти']");
+
     public RegisterPage(WebDriver driver) {
         this.driver = driver;
         waitDriver = new WebDriverWait(driver, Utils.EXPLICIT_WAIT_3SEC);

@@ -1,6 +1,7 @@
 package org.example;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
@@ -12,7 +13,6 @@ import org.example.model.User;
 import org.example.page.objects.LoginPage;
 import org.example.page.objects.RegisterPage;
 import org.example.steps.UsersSteps;
-import org.example.utils.Utils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -20,6 +20,8 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 
 import java.io.IOException;
+
+import static org.example.utils.Utils.*;
 
 public class RegisterTest {
 
@@ -32,7 +34,7 @@ public class RegisterTest {
     @Before
     public void startUp() throws IOException {
         RestAssured.requestSpecification = new RequestSpecBuilder()
-                .setBaseUri(Utils.URL_BURGERS)
+                .setBaseUri(URL_BURGERS)
                 .setContentType(ContentType.JSON)
                 .build();
 
@@ -52,8 +54,10 @@ public class RegisterTest {
 
     @Test
     @DisplayName("После успешной регистрации открывается страница авторизации")
+    @Description("Проверка, что URL текущей страницы равен URL страницы логина" +
+            "после заполнения всех обязательных полей и клика на кнопку регистрации")
     public void loginPageOpensWhenRegistrationCompletedTest() {
-        driver.get(Utils.URL_BURGERS_REGISTER);
+        driver.get(URL_BURGERS_REGISTER);
 
         RegisterPage registerPage = new RegisterPage(driver);
         registerPage.setName(name);
@@ -66,17 +70,19 @@ public class RegisterTest {
 
         loginPage.waitForLoginButton();
 
-        Assert.assertEquals(Utils.URL_BURGERS_LOGIN, driver.getCurrentUrl());
+        Assert.assertEquals(URL_BURGERS_LOGIN, driver.getCurrentUrl());
     }
 
     @Test
     @DisplayName("Ошибка Некорректный пароль появляется, если пароль слишком короткий")
+    @Description("Проверка, что при вводе пароля длиной 5 символов " +
+            "появляется сообщение об ошибке Некорректный пароль")
     public void errorOccursWhenPasswordIsTooShortTest() {
-        driver.get(Utils.URL_BURGERS_REGISTER);
+        driver.get(URL_BURGERS_REGISTER);
 
         RegisterPage registerPage = new RegisterPage(driver);
-        registerPage.setName(RandomStringUtils.randomAlphabetic(6));
-        registerPage.setEmail(RandomStringUtils.randomAlphabetic(6) + "@mail.ru");
+        registerPage.setName(name);
+        registerPage.setEmail(email);
         registerPage.setPassword(RandomStringUtils.randomAlphabetic(5));
 
         registerPage.clickRegisterButton();

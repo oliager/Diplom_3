@@ -19,6 +19,10 @@ public class LoginPage {
     private final By passwordField = By.xpath(".//input[@name='Пароль']");
 
 
+    //локатор кнопки Войти на странице Забыли пароль
+    public static final By BUTTON_FORGOT_PASSWORD= By.xpath(".//a[text()='Войти']");
+
+
     public LoginPage(WebDriver driver) {
         this.driver = driver;
         waitDriver = new WebDriverWait(driver, Utils.EXPLICIT_WAIT_3SEC);
@@ -52,4 +56,10 @@ public class LoginPage {
     public void clickLoginButton() {
         driver.findElement(loginButton).click();
     }
+
+    @Step("Клик по кнопке, чтобы открылась форма автризации")
+    public void clickButtonToLogin(By locator){
+        driver.findElement(locator).click();
+    }
+
 }

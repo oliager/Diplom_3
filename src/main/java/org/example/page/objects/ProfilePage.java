@@ -7,7 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static org.example.utils.Utils.BUTTON_PROFILE;
+
 
 public class ProfilePage {
 
@@ -16,7 +16,8 @@ public class ProfilePage {
 
     private final By fieldLogin = By.xpath(".//label[text()='Логин']/parent::div/input");
 
-
+    //локатор кнопки Личный Кабинет в хэдере
+    public static final By BUTTON_PROFILE = By.xpath(".//p[text()='Личный Кабинет']/parent::a");
 
     public ProfilePage(WebDriver driver) {
         this.driver = driver;

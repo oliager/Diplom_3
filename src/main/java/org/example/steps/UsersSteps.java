@@ -5,6 +5,7 @@ import io.restassured.response.ValidatableResponse;
 import org.example.model.User;
 
 import static io.restassured.RestAssured.given;
+import static org.example.utils.Utils.*;
 
 public class UsersSteps {
 
@@ -13,7 +14,7 @@ public class UsersSteps {
         return given()
                 .body(user)
                 .when()
-                .post("api/auth/register")
+                .post(POST_REGISTER)
                 .then();
 
     }
@@ -22,7 +23,7 @@ public class UsersSteps {
         return given()
                 .body(user)
                 .when()
-                .post("api/auth/login")
+                .post(POST_LOGIN)
                 .then();
 
     }
@@ -31,7 +32,7 @@ public class UsersSteps {
         return given()
                 .header("Authorization", authorization)
                 .when()
-                .delete("api/auth/user")
+                .delete(DELETE_USER)
                 .then();
     }
 
